@@ -768,14 +768,6 @@ def run_flask():
     app.run(port=5000)
 
 
-def start_ngrok():
-    tunnel = ngrok.connect(5000)
-    print(Fore.BLUE + f"Ngrok URL: {tunnel.public_url}")
-    webbrowser.open(tunnel.public_url)
-
 # ================= MAIN =================
 if __name__ == "__main__":
-    # Start ngrok tunnel in background
-    Thread(target=start_ngrok, daemon=True).start()
-    # Start Flask app
-    run_flask() 
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
