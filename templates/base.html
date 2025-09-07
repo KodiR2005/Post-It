@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title or "My App" }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      {% if theme == "dark" %}
+        background: #121212;
+        color: #f1f1f1;
+      {% elif theme == "blue" %}
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+      {% else %}
+        background: #f9f9f9;
+        color: #333;
+      {% endif %}
+      
+      {% if font_size == "small" %}
+        font-size: 14px;
+      {% elif font_size == "large" %}
+        font-size: 20px;
+      {% else %}
+        font-size: 16px;
+      {% endif %}
+    }
+  </style>
+</head>
+<body>
+  {% block content %}{% endblock %}
+</body>
+</html>

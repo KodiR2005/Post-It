@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Posts</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- Theme Variables ---------- */
+:root {
+  --bg-color: #f0f2f5;
+  --text-color: #1f2937;
+  --card-bg: #fff;
+  --navbar-bg: #fff;
+  --link-color: #374151;
+  --link-hover: #2563eb;
+  --button-hover-bg: #f3f4f6;
+  --primary: #6a11cb;
+  --secondary: #2575fc;
+  --radius: 14px;
+  --shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+body.dark {
+  --bg-color: #1e293b;
+  --text-color: #f3f4f6;
+  --card-bg: #334155;
+  --navbar-bg: #0f172a;
+  --link-color: #e5e7eb;
+  --link-hover: #818cf8;
+  --button-hover-bg: #475569;
+  --primary: #6366f1;
+  --secondary: #818cf8;
+}
+
+/* ---------- Font Sizes ---------- */
+body.small { font-size: 14px; }
+body.medium { font-size: 16px; }
+body.large { font-size: 18px; }
+
+/* ---------- Body ---------- */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.4s, color 0.4s;
+}
+
+
+/* ---------- Navbar (Floating Card Style) ---------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: var(--navbar-bg);
+  box-shadow: var(--shadow);      /* added shadow to make it float */
+  border-radius: var(--radius);   /* rounded corners */
+  margin: 1rem auto;              /* separates it from top and sides */
+  max-width: 1600px;               /* aligns with container width */
+  position: sticky;
+  top: 1rem;                       /* sticks slightly below the top */
+  z-index: 50;                     /* ensures it stays on top */
+  transition: background 0.3s, transform 0.2s;
+}
+.logo {
+  font-weight:700;
+  color: var(--link-hover);
+  font-size:1.3rem;
+  letter-spacing:0.5px;
+}
+.nav-links a {
+  margin-left:1rem;
+  color: var(--link-color);
+  text-decoration:none;
+  font-weight:500;
+  transition: color 0.2s;
+}
+.nav-links a:hover {
+  color: var(--link-hover);
+}
+.nav-links a.active {
+  font-weight:700;
+  color: var(--primary);
+}
+
+/* ---------- Container ---------- */
+.container {
+  max-width:720px;
+  margin:2rem auto;
+  padding:0 1rem;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* ---------- Heading ---------- */
+h2 {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  font-size: 1.9rem;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---------- Post Cards ---------- */
+.post-card {
+  padding: 1.4rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
+  border: 2px solid transparent;
+  background: var(--card-bg);
+}
+.post-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.15);
+  border-image: linear-gradient(90deg, var(--primary), var(--secondary)) 1;
+}
+.post-card p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+}
+.post-card img,
+.post-card video {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  margin-top: 0.8rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* ---------- Caption ---------- */
+.caption {
+  margin-top: 0.9rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+/* ---------- Timestamp ---------- */
+.timestamp {
+  display: inline-block;
+  margin-top: 0.8rem;
+  font-size: 0.75rem;
+  font-style: italic;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--button-hover-bg);
+  color: var(--link-color);
+  transition: background 0.3s, color 0.3s;
+}
+.post-card:hover .timestamp {
+  background: var(--secondary);
+  color: #fff;
+}
+
+/* ---------- Empty State ---------- */
+.empty-state {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 1.1rem;
+  color: var(--link-color);
+  opacity: 0.85;
+}
+.empty-state::before {
+  content: "📝";
+  display: block;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(15px); }
+  to { opacity:1; transform:translateY(0); }
+}
+</style>
+</head>
+<body>
+<header class="navbar">
+  <div class="logo">Figos</div>
+  <nav class="nav-links">
+    <a href="/profile">Profile</a>
+    <a href="/profile/posts" class="active">My Posts</a>
+    <a href="/feed">Feed</a>
+    <a href="/profile/saved">Saved</a>
+    <a href="/profile/settings">Settings</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </nav>
+</header>
+
+<main class="container">
+  <h2>My Posts</h2>
+  {% if posts %}
+    {% for post in posts %}
+    <div class="post-card">
+      {% if post.content_type == 'text' %}
+        <p>{{ post.content }}</p>
+      {% elif post.content_type == 'image' %}
+        <img src="{{ url_for('static', filename='uploads/' ~ post.content) }}">
+      {% elif post.content_type == 'video' %}
+        <video controls>
+          <source src="{{ url_for('static', filename='uploads/' ~ post.content) }}">
+        </video>
+      {% endif %}
+      {% if post.caption %}
+        <div class="caption">{{ post.caption }}</div>
+      {% endif %}
+      <div class="timestamp">{{ post.timestamp }}</div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="empty-state">You have not posted anything yet.</p>
+  {% endif %}
+</main>
+
+<script>
+(function applyUserSettings(){
+  const theme = localStorage.getItem("theme") || "light";
+  const fontSize = localStorage.getItem("fontSize") || "medium";
+  document.body.classList.add(theme, fontSize);
+})();
+</script>
+</body>
+</html>

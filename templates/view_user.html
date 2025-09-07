@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>View User</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Base Variables ---------- */
+  :root {
+    --bg-color: #f0f2f5;
+    --text-color: #1f2937;
+    --card-bg: #fff;
+    --accent: #6a11cb;
+    --accent-hover: #2575fc;
+  }
+  body.dark {
+    --bg-color: #1e293b;
+    --text-color: #f3f4f6;
+    --card-bg: #334155;
+    --accent: #818cf8;
+    --accent-hover: #6366f1;
+  }
+
+  /* ---------- Font Sizes ---------- */
+  body.small { font-size: 14px; }
+  body.medium { font-size: 16px; }
+  body.large { font-size: 18px; }
+
+  /* ---------- General Layout ---------- */
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+  }
+  .card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-align: center;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* ---------- Text ---------- */
+  h2 { margin-bottom: 10px; color: var(--accent); }
+  p { color: var(--text-color); margin: 5px 0; }
+
+  /* ---------- Stats ---------- */
+  .stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+  }
+  .stat {
+    background: #f0f0f0;
+    padding: 15px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.3s;
+  }
+  body.dark .stat {
+    background: #475569;
+  }
+
+  /* ---------- Buttons ---------- */
+  .back-btn {
+    background: var(--accent);
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+    margin-top: 15px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .back-btn:hover {
+    background: var(--accent-hover);
+  }
+  #followBtn { margin-top: 15px; }
+
+  /* ---------- Profile Picture ---------- */
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+{% if profile_pic %}
+  <img src="{{ url_for('static', filename='uploads/' ~ profile_pic) }}" class="profile-pic" alt="Profile Picture">
+{% else %}
+  <img src="https://via.placeholder.com/100" class="profile-pic" alt="Profile Picture">
+{% endif %}
+
+  <h2>{{ name }} (@{{ username }})</h2>
+  <p>{{ bio }}</p>
+
+  <div class="stats">
+    <div id="followersCount" class="stat" onclick="window.location.href='/followers/{{ user_id }}'">
+      Followers <br> <span id="followersNumber">{{ followers }}</span>
+    </div>
+    <div id="followingCount" class="stat" onclick="window.location.href='/following/{{ user_id }}'">
+      Following <br> {{ following }}
+    </div>
+  </div>
+
+  <!-- Follow/Unfollow only if not viewing own profile -->
+  {% if session.get('user_id') and session.get('user_id') != user_id %}
+    <button id="followBtn" class="back-btn" onclick="toggleFollow({{ user_id }})">
+      {{ 'Unfollow' if is_following else 'Follow' }}
+    </button>
+  {% endif %}
+  
+  <a href="/profile" class="back-btn">Back to My Profile</a>
+</div>
+
+<script>
+  // ---------- Apply Theme + Font Settings ----------
+  function applyUserSettings() {
+    const theme = localStorage.getItem("theme") || "light";
+    const fontSize = localStorage.getItem("fontSize") || "medium";
+    document.body.classList.remove("light", "dark", "small", "medium", "large");
+    document.body.classList.add(theme, fontSize);
+  }
+  applyUserSettings();
+
+  // ---------- Follow/Unfollow ----------
+  function toggleFollow(userId) {
+    const btn = document.getElementById("followBtn");
+    const followersNumber = document.getElementById("followersNumber");
+    btn.disabled = true; // prevent double clicks
+
+    fetch(`/follow/${userId}`, { method: "POST", credentials: "same-origin" })
+      .then(res => res.json())
+      .then(data => {
+        if(data.status === "success") {
+          btn.innerText = data.action === "followed" ? "Unfollow" : "Follow";
+          followersNumber.innerText = data.followers;
+        } else {
+          alert(data.message || "Could not follow/unfollow user.");
+        }
+      })
+      .catch(err => {
+        console.error("toggleFollow error:", err);
+        alert("Network or server error. See console for details.");
+      })
+      .finally(() => { btn.disabled = false; });
+  }
+</script>
+</body>
+</html>

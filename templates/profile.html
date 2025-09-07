@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    /* Light mode */
+    body.light {
+      background: #ffffff; /* White background instead of purple */
+      color: #000;
+    }
+
+    body.light .card,
+    body.light .profile-card {
+      background: #fff;
+      color: #000;
+    }
+
+    /* Dark mode */
+    body.dark {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #f4f4f4;
+    }
+
+    body.dark .card,
+    body.dark .profile-card {
+      background: #1e293b;
+      color: #f4f4f4;
+      box-shadow: 0 6px 20px rgba(255,255,255,0.05);
+    }
+
+    body.dark .stat {
+      background: #334155;
+      color: #f4f4f4;
+    }
+
+    body.dark .edit-btn,
+    body.dark .logout-btn,
+    body.dark .back-btn,
+    body.dark .btn-saved,
+    body.dark .btn-settings,
+    body.dark .back-btn-myposts,
+    body.dark .btn-search {
+      background-color: #9333ea;
+    }
+
+    body.dark .edit-btn:hover,
+    body.dark .logout-btn:hover,
+    body.dark .back-btn:hover,
+    body.dark .btn-saved:hover,
+    body.dark .btn-settings:hover,
+    body.dark .btn-search:hover {
+      background-color: #7e22ce;
+    }
+
+    body.dark input,
+    body.dark button {
+      background: #334155;
+      color: #f4f4f4;
+      border: 1px solid #475569;
+    }
+
+    .profile-placeholder {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      font-size: 2.5rem;
+      color: #6b7280;
+      margin: 0 auto 1rem auto;
+    }
+
+    .profile-card {
+        position: relative;
+        background: #fff;
+        border-radius: 15px;
+        padding: 2rem;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+    h2 { margin-bottom: 10px; color: #6a11cb; }
+    p { color: #555; margin: 5px 0; }
+
+    .stats {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px 0;
+    }
+
+    .stat {
+        background: #f0f0f0;
+        padding: 15px 20px;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .profile-pic {
+        display: block;
+        margin: 1rem auto;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #2563eb;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    /* Buttons */
+    .btn-saved, .btn-settings, .back-btn-myposts, .btn-search {
+        position: absolute;
+        left: -1.5rem;
+        transform: translateY(-50%);
+        background-color: #2563eb;
+        color: #fff;
+        padding: 0.5rem 0.8rem;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s;
+        z-index: 2;
+    }
+
+    .btn-saved { top: 50%; }
+    .back-btn-myposts { top: 40%; }
+    .btn-settings { top: 60%; }
+    .btn-search { top: 70%; cursor: pointer; }
+
+    .btn-saved:hover,
+    .back-btn-myposts:hover,
+    .btn-settings:hover,
+    .btn-search:hover {
+        background-color: #1d4ed8;
+    }
+
+    .edit-btn, .logout-btn, .back-btn {
+        background: #2563eb;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 15px;
+        margin-right: 10px;
+    }
+
+    .edit-btn:hover, .logout-btn:hover, .back-btn:hover {
+        background: #1d4ed8;
+    }
+
+    /* Search popout */
+    #search-container {
+        display: none;
+        margin: 20px 0;
+    }
+
+    #search-container input {
+        width: 50%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        outline: none;
+    }
+
+    .search-results {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-results .user-card {
+        background-color: #f1f1f1;
+        padding: 10px 20px;
+        border-radius: 10px;
+        width: 70%;
+        margin: 5px 0;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .search-results .user-card:hover {
+        background-color: #e0e0e0;
+    }
+</style>
+</head>
+<body class="{{ theme }}" style="font-size: {{ font_size }}px;">
+
+<div class="profile-card">
+
+    <!-- My Posts button -->
+    <a href="{{ url_for('my_posts') }}" class="back-btn-myposts">📝 My Posts</a>
+    <!-- Saved button -->
+    <a href="{{ url_for('saved_posts') }}" class="btn-saved">💾 Saved</a>
+    <!-- Settings button -->
+    <a href="{{ url_for('profile_settings') }}" class="btn-settings">⚙️ Settings</a>
+    <!-- Search button -->
+    <div class="btn-search" onclick="toggleSearch()">🔍 Search</div>
+
+    <!-- Profile picture -->
+    {% if profile_pic %}
+      <img src="{{ url_for('static', filename='uploads/' ~ profile_pic) }}" class="profile-pic" alt="Profile Picture">
+    {% else %}
+      <div class="profile-placeholder">👤</div>
+    {% endif %}
+
+    <!-- Name and username -->
+    <h2>{{ name }} (@{{ username }})</h2>
+    <p>{{ bio }}</p>
+
+    <!-- Followers / Following stats -->
+    <div class="stats">
+       <div class="stat" onclick="window.location.href='{{ followers_url }}'">
+    Followers <br> {{ followers }}
+</div>
+<div class="stat" onclick="window.location.href='{{ following_url }}'">
+    Following <br> {{ following }}
+</div>
+    </div>
+
+    <!-- Hidden Search Box -->
+    <div id="search-container">
+        <input type="text" id="userSearchInput" placeholder="Search users by username..." oninput="searchUsers()">
+        <div id="searchResults" class="search-results"></div>
+    </div>
+
+    <!-- Navigation buttons -->
+    <a href="/feed" class="back-btn">Go to Feed</a>
+    <a href="/profile/edit" class="edit-btn">Edit Profile</a>
+    <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+</div>
+
+<script>
+function toggleSearch() {
+    const container = document.getElementById("search-container");
+    container.style.display = container.style.display === "none" ? "block" : "none";
+}
+
+function searchUsers() {
+    const query = document.getElementById("userSearchInput").value.trim();
+    if (!query) {
+        document.getElementById("searchResults").innerHTML = "";
+        return;
+    }
+
+    fetch(`/search_users?username=${encodeURIComponent(query)}`)
+        .then(res => res.json())
+        .then(data => {
+            const resultsDiv = document.getElementById("searchResults");
+            resultsDiv.innerHTML = "";
+            if (data.users && data.users.length > 0) {
+                data.users.forEach(user => {
+                    const div = document.createElement("div");
+                    div.className = "user-card";
+                    div.innerText = "@" + user.username;
+                    div.onclick = () => window.location.href = `/view_user/${user.id}`;
+                    resultsDiv.appendChild(div);
+                });
+            } else {
+                resultsDiv.innerHTML = "<p>No users found</p>";
+            }
+        });
+}
+
+// -----------------------------
+// Disable buttons if no @username
+// -----------------------------
+const username = "{{ username }}".trim();  // from backend
+
+if (!username) {  // If username not set
+    const restrictedButtons = document.querySelectorAll(".back-btn, .btn-saved, .btn-settings, .btn-search, .back-btn-myposts");
+    restrictedButtons.forEach(btn => {
+        btn.addEventListener("click", function(e) {
+            e.preventDefault();
+            alert("You must create a @username before accessing this page!");
+        });
+        btn.style.opacity = "0.6";   // visually show they are disabled
+        btn.style.pointerEvents = "auto";  // keep the cursor normal
+        btn.style.cursor = "not-allowed";
+    });
+}
+</script>
+</script>
+
+</body>
+</html>
