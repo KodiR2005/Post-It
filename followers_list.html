@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Followers</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- Theme Variables ---------- */
+:root {
+  --bg-color: #f0f2f5;
+  --text-color: #1f2937;
+  --card-bg: #fff;
+  --user-card-bg: #f0f0f0;
+  --user-card-hover: #e0e0e0;
+}
+body.dark {
+  --bg-color: #1e293b;
+  --text-color: #f3f4f6;
+  --card-bg: #334155;
+  --user-card-bg: #475569;
+  --user-card-hover: #64748b;
+}
+
+/* ---------- Font Sizes ---------- */
+body.small { font-size: 14px; }
+body.medium { font-size: 16px; }
+body.large { font-size: 18px; }
+
+/* ---------- General Styles ---------- */
+body {
+  font-family: 'Roboto', sans-serif;
+  background: var(--bg-color);
+  margin:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  color: var(--text-color);
+  transition: background 0.3s, color 0.3s;
+}
+.card {
+  background: var(--card-bg);
+  border-radius:15px;
+  padding:30px;
+  width:100%;
+  max-width:500px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  text-align:center;
+  transition: background 0.3s;
+}
+.user-card {
+  background: var(--user-card-bg);
+  margin:10px 0;
+  padding:10px;
+  border-radius:10px;
+  cursor:pointer;
+  transition: background 0.3s;
+}
+.user-card:hover {
+  background: var(--user-card-hover);
+}
+.edit-btn {
+  display:inline-block;
+  margin-top:15px;
+  padding:10px 20px;
+  background:#2563eb;
+  color:#fff;
+  border-radius:8px;
+  text-decoration:none;
+  transition: background 0.3s;
+}
+.edit-btn:hover {
+  background:#1d4ed8;
+}
+</style>
+</head>
+<body>
+<div class="card">
+    <h2>Followers</h2>
+   {% if followers %}
+  <ul>
+    {% for user in followers %}
+      <li><a href="{{ url_for('view_user', user_id=user.id) }}">@{{ user.username }}</a></li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No followers yet</p>
+{% endif %}
+
+    <a href="/profile" class="edit-btn">Back</a>
+</div>
+
+<script>
+// ---------- Apply Theme + Font from localStorage ----------
+(function applyUserSettings(){
+  const theme = localStorage.getItem("theme") || "light";
+  const fontSize = localStorage.getItem("fontSize") || "medium";
+  document.body.classList.add(theme, fontSize);
+})();
+</script>
+</body>
+</html>

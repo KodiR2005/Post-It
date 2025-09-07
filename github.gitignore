@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+instance/
+.env
+users.db
+/static/uploads/
+
+git remote add origin https://github.com/KodiR2005/Post-It.git
+git branch -M main
+git push -u origin main

@@ -1,0 +1,18 @@
+{
+    "ip": "90.217.147.93",
+    "coordinates": {
+        "lat": 52.965605275796946,
+        "lng": -1.1079566008613926
+    },
+    "browser_info": {
+        "Browser Info": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0",
+        "Cookies Enabled": true,
+        "Language": "en-GB",
+        "Platform": "Win32",
+        "Screen Size": "1920x1080",
+        "Timezone": "Europe/London"
+    },
+    "name": "Cody Robbins",
+    "email": "cody.robbins17@icloud.com",
+    "phone": "07541770211"
+}

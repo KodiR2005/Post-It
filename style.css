@@ -1,0 +1,106 @@
+/* Reset and base styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+}
+
+/* Form container */
+.form-container {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.form-container:hover {
+    transform: translateY(-5px);
+}
+
+/* Form title */
+h1 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 25px;
+}
+
+/* Inputs */
+input {
+    width: 90%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+    border-color: #2575fc;
+    box-shadow: 0 0 5px rgba(37, 117, 252, 0.5);
+    outline: none;
+}
+
+/* Buttons */
+button {
+    width: 90%;
+    padding: 12px;
+    margin-top: 15px;
+    background-color: #2575fc;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #6a11cb;
+    transform: translateY(-2px);
+}
+
+/* Output messages */
+.output {
+    margin-top: 20px;
+    font-size: 0.95rem;
+    color: #333;
+    word-break: break-word;
+}
+
+/* Toggle login/signup text */
+#toggle-text {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+#toggle-text button {
+    background: none;
+    color: #2575fc;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0;
+    margin-left: 5px;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+#toggle-text button:hover {
+    color: #6a11cb;
+}
+
